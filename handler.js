@@ -1,5 +1,6 @@
 'use strict';
 const verifyPasswordLength = require('./constrainsts/verifyPasswordLength')
+const verifyPasswordStrength = require('./constrainsts/verifyPasswordStrength')
 
 module.exports.password = async (event, context) => {
   try {
@@ -8,10 +9,13 @@ module.exports.password = async (event, context) => {
     } = event.pathParameters
 
     await verifyPasswordLength(password)
+    const {
+      score
+    } = await verifyPasswordStrength(password)
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'todo ok ' + password
+        message: `Password score: ${score}`
       })
     }
 
@@ -19,7 +23,8 @@ module.exports.password = async (event, context) => {
     return {
       statusCode: 400,
       body: JSON.stringify({
-        message: `Error ${e.message}`
+        message: `Error ${e.message}`,
+        score: e.score
       })
     }
   }
