@@ -1,6 +1,10 @@
 'use strict';
-const verifyPasswordLength = require('./constrainsts/verifyPasswordLength')
-const verifyPasswordStrength = require('./constrainsts/verifyPasswordStrength')
+
+
+const {
+  verifyPasswordLength,
+  verifyPasswordStrength
+} = require('./constrainsts')
 
 module.exports.password = async (event, context) => {
   try {
